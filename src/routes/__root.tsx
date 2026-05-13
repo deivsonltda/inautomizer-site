@@ -4,12 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
-
-import appCss from "../styles.css?url";
-import favicon from "@/assets/favicon.png";
 
 function NotFoundComponent() {
   return (
@@ -72,77 +67,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-
-      { title: "InAutomizer — Automação e agendamento para Instagram" },
-      {
-        name: "description",
-        content:
-          "Organize, agende e acompanhe suas publicações no Instagram com uma plataforma simples, moderna e eficiente.",
-      },
-      { name: "author", content: "InAutomizer" },
-
-      {
-        property: "og:title",
-        content: "InAutomizer — Automação e agendamento para Instagram",
-      },
-      {
-        property: "og:description",
-        content:
-          "Agende posts, reels e stories, gerencie contas conectadas e mantenha sua presença no Instagram sempre organizada.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "InAutomizer" },
-
-      { name: "twitter:card", content: "summary_large_image" },
-      {
-        name: "twitter:title",
-        content: "InAutomizer — Automação e agendamento para Instagram",
-      },
-      {
-        name: "twitter:description",
-        content:
-          "Uma plataforma simples e moderna para organizar suas publicações no Instagram.",
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        href: favicon,
-      },
-      {
-        rel: "apple-touch-icon",
-        href: favicon,
-      },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
-
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="pt-BR">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
