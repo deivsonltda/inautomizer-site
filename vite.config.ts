@@ -4,4 +4,13 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+
+  vite: {
+    preview: {
+      allowedHosts: [
+        "inautomizer.shop",
+        "www.inautomizer.shop",
+      ],
+    },
+  },
 });
