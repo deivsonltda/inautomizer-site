@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -8,10 +8,14 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-ENV NODE_ENV=production
-ENV HOST=0.0.0.0
-ENV PORT=3000
+FROM nginx:alpine
 
-EXPOSE 3000
+RUN rm -f /etc/nginx/conf.d/default.conf
+RUN rm -rf /usr/share/nginx/html/*
 
-CMD ["npm", "run", "start"]
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist/client /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
